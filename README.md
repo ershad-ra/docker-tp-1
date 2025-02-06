@@ -9,7 +9,7 @@ Ce TP consiste à exécuter un serveur web (Nginx) dans un conteneur Docker et �
 
 ## 1. Clonage du repository et préparation de l'environnement
 
-# Cloner le repository
+### Cloner le repository
 git clone https://github.com/ershad-ra/docker-tp-1.git
 
 # Se déplacer dans le dossier du projet
