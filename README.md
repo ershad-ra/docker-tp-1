@@ -7,7 +7,7 @@ Ce TP consiste à exécuter un serveur web (Nginx) dans un conteneur Docker et �
 
 ## Étapes réalisées
 
-### 1. Clonage du repository et préparation de l'environnement
+## 1. Clonage du repository et préparation de l'environnement
 
 # Cloner le repository
 git clone https://github.com/ershad-ra/docker-tp-1.git
@@ -17,7 +17,7 @@ cd docker-tp-1
 
 
 
-### 2. Récupération de l’image Nginx depuis Docker Hub
+## 2. Récupération de l’image Nginx depuis Docker Hub
 
 
 # Télécharger l'image Nginx depuis Docker Hub
@@ -27,7 +27,7 @@ docker pull nginx
 docker images
 
 
-### 3. Création d’un fichier HTML
+## 3. Création d’un fichier HTML
 
 # Créer le fichier index.html
 touch index.html
@@ -52,18 +52,18 @@ Contenu du fichier index.html :
 
 ```
 
-### 4. Démarrage d'un conteneur en montant un volume
+## 4. Démarrage d'un conteneur en montant un volume
 
 # Lancer un conteneur Nginx et monter le fichier index.html
 docker run -d -p 8080:80 -v $(pwd)/index.html:/usr/share/nginx/html/index.html nginx
 
 
-### 5. Vérification de l'accès au serveur web
+## 5. Vérification de l'accès au serveur web
 
 http://localhost:8080
 
 
-### 6. Suppression du conteneur
+## 6. Suppression du conteneur
 
 # Lister les conteneurs en cours d'exécution
 docker ps
@@ -75,7 +75,7 @@ docker stop <ID_DU_CONTENEUR>
 docker rm <ID_DU_CONTENEUR>
 
 
-### 7. Relancer un conteneur sans volume et copier le fichier HTML avec docker cp
+## 7. Relancer un conteneur sans volume et copier le fichier HTML avec docker cp
 
 # Lancer un nouveau conteneur Nginx sans volume
 docker run -d -p 8080:80 --name mon_nginx nginx
@@ -87,7 +87,7 @@ docker cp index.html mon_nginx:/usr/share/nginx/html/index.html
 docker restart mon_nginx
 
 
-### 8. Vérification de l'accès après la copie
+## 8. Vérification de l'accès après la copie
 
 http://localhost:8080
 
