@@ -1,7 +1,7 @@
-# TP Docker - Serveur Web avec Nginx
+# TP Docker 1
 
-## Objectif
-Ce TP consiste à exécuter un serveur web (Nginx) dans un conteneur Docker et à y servir une page HTML statique.
+## Partie 1
+Exécuter un serveur web (Nginx) dans un conteneur Docker et à y servir une page HTML statique.
 
 ---
 
@@ -69,10 +69,10 @@ http://localhost:8080
 docker ps
 
 ### Arrêter le conteneur en utilisant son ID
-docker stop <ID_DU_CONTENEUR>
+docker stop b685995a5f86
 
 ### Supprimer le conteneur
-docker rm <ID_DU_CONTENEUR>
+docker rm b685995a5f86
 
 
 ## 7. Relancer un conteneur sans volume et copier le fichier HTML avec docker cp
@@ -90,4 +90,12 @@ docker restart mon_nginx
 ## 8. Vérification de l'accès après la copie
 
 http://localhost:8080
+
+
+## Partie 2
+Exécuter un serveur web (Nginx) dans un conteneur Docker et à y servir une page HTML statique.
+
+---
+
+## Étapes réalisées
 
