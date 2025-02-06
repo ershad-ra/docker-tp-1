@@ -1,4 +1,4 @@
-# TP Docker 1
+# Docker - TP 1
 
 ## Partie 1
 Exécuter un serveur web (Nginx) dans un conteneur Docker et à y servir une page HTML statique.
