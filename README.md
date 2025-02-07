@@ -179,6 +179,7 @@ docker exec -it mysql-container mysql -u root -p
 ![image](https://github.com/user-attachments/assets/1aec0412-20e8-418b-b838-4b3059139d03)
 >>>>>>> bbd42581903ee3e65eb71f12cebef5d6f9abaae4
 
+hi
 
 ## les commandes utils:
 ```bash
