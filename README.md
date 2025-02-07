@@ -1,6 +1,8 @@
-# Docker - TP 1
 
-## Partie 1
+# <span style="color:red">Docker - TP 1</span>
+
+
+## <span style="color:green">Partie 1</span>
 Exécuter un serveur web (Nginx) dans un conteneur Docker et à y servir une page HTML statique.
 
 ### Récupération de l’image Nginx depuis Docker Hub
