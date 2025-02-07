@@ -126,7 +126,7 @@ On crée une nouvelle image Docker qui contient directement le fichier index.htm
 
 - Créer un Dockerfile
 
-```bash
+```Dockerfile
 FROM nginx:latest
 COPY index.html /usr/share/nginx/html/index.html
 EXPOSE 80
