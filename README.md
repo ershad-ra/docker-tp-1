@@ -423,7 +423,7 @@ docker network inspect backend_network
 - Cette configuration est utilisée pour sécuriser l’architecture réseau :
   - Architecture microservices (avec `frontend`, `backend`, `database`).
   - Séparer un serveur `web` et une base de données pour éviter des attaques directes sur `db`.
-- Exemples concrets :
+- Exemples concrets :  
 `web` = `Nginx`/`Apache`  
 `app` = `Node.js`, `Python Flask`, `PHP`  
 `db` = `PostgreSQL`, `MySQL`, `MongoDB`
