@@ -141,7 +141,7 @@ docker run -d -p 8080:80 mon-nginx
 
 Utiliser une base de données dans un conteneur docker
 
-### Récupération des images mysql et phpmyadmin depuis Docker Hub
+### Récupération des images `mysql` et `phpmyadmin` depuis Docker Hub
 
 
 - Télécharger les images depuis Docker Hub
@@ -168,12 +168,102 @@ docker run -d --name phpmyadmin-container --link mysql-container -p 8081:80 -e P
 > `-p 8081:80 → phpMyAdmin` est accessible sur http://localhost:8081.  
 > `-e PMA_HOST=mysql-container` → Définit l’hôte MySQL.  
 
-- Pour se connecter au conteneur mysql :
+- Pour se connecter au conteneur `MySQL` :
 ```bash
 docker exec -it mysql-container mysql -u root -p
 ```
 
 > `docker exec -it mysql-container` → Ouvre un terminal interactif dans le conteneur MySQL.
+
+### Faire la même chose que précédemment en utilisant un fichier `docker-compose.yml`
+
+- Création du fichier `docker-compose.yml`:
+```bash
+touch docker-compose.yml
+nano docker-compose.yml
+```
+Ajouter le contenu suivant:
+```yaml
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: mysql-container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: tp_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - my_network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin-container
+    restart: always
+    depends_on:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "8081:80"
+    networks:
+      - my_network
+
+volumes:
+  mysql_data:
+    name: my_volume
+
+networks:
+  my_network:
+    name: my_network
+    driver: bridge
+
+```
+
+- Exécute la commande suivante pour démarrer MySQL et phpMyAdmin :
+
+```bash
+docker-compose up -d
+
+```
+- Cela va démarrer MySQL et phpMyAdmin ensemble, sans avoir besoin d’exécuter plusieurs `docker run`.
+
+### Des notes:
+- Si la directive `networks` n'est pas définit, docker crée automatiquement un réseau par défaut pour que les conteneurs d’un même docker-compose.yml puissent communiquer entre eux sans exposer leurs ports sur l’hôte.
+- Le volume est un espace de stockage persistant attribué à MySQL. Il permet de conserver les données même si le conteneur est supprimé ou redémarré.
+- Pour lister ou supprimer les networks et les volumes :
+```bash
+docker network ls
+docker network inspect my_network
+docker network rm my_network
+docker volume ls
+docker volume inspect my_volume
+docker rm my_volume
+
+```
+- Par défaut, Docker Compose utilise le nom du dossier contenant le fichier docker-compose.yml comme préfixe pour les réseaux, volumes et conteneurs.
+- Pour éviter les conflits quand plusieurs stacks sont exécutées, Docker Compose nomme les ressources ainsi : `<nom_du_projet>_<nom_de_la_ressource>`
+- Si on veut désactiver ce préfixe, on peut spécifier un nom de projet en lançant Docker Compose : `docker-compose -p myproject up -d`
+- Un réseau a été  créé par Docker Compose pour connecter les services définis dans le fichier docker-compose.yml.
+
+# Détails du réseau
+
+| Champ           | Valeur                 | Explication                                      |
+|----------------|-----------------------|--------------------------------------------------|
+| **Nom**        | `my_network       `   | Nommé automatiquement d'après le projet (docker-tp-1) |
+| **ID**         | 2196d5cf0298...       | Identifiant unique du réseau                     |
+| **Type (Driver)** | bridge             | Type de réseau utilisé (isolé du réseau hôte)   |
+| **Scope**      | local                 | Réseau local uniquement sur cette machine       |
+| **IPv4 Subnet** | 172.18.0.0/16        | Adresse IP attribuée à ce réseau Docker        |
+| **Gateway**    | 172.18.0.1            | Passerelle du réseau pour communication externe |
+| **Attachable** | false                 | Les conteneurs externes ne peuvent pas s'y attacher |
+| **Ingress**    | false                 | Pas utilisé pour le load balancing              |
 
 
 ## les commandes utils:
