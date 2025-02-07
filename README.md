@@ -160,8 +160,23 @@ docker run -d --name mysql-container -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABA
  > `-e MYSQL_DATABASE=tp_db` → Crée une base de données tp_db.  
  > `-p 3306:3306` → Expose MySQL sur le port 3306.  
 
+- Lancer un conteneur phpMyAdmin
+```bash
+docker run -d --name phpmyadmin-container --link mysql-container -p 8081:80 -e PMA_HOST=mysql-container phpmyadmin/phpmyadmin
+```
+> `--link mysql-container` → Connecte phpMyAdmin à MySQL.  
+> `-p 8081:80 → phpMyAdmin` est accessible sur http://localhost:8081.  
+> `-e PMA_HOST=mysql-container` → Définit l’hôte MySQL.  
+
+- Pour se connecter au conteneur mysql :
+```bash
+docker exec -it mysql-container mysql -u root -p
+```
+
+> `docker exec -it mysql-container` → Ouvre un terminal interactif dans le conteneur MySQL.
+
+
 ## les commandes utils:
-- Pour supprimer les contoneurs :
 ```bash
 docker pull nginx:latest
 docker pull mysql:5.7
@@ -171,5 +186,7 @@ docker ps
 docker ps -a
 docker stop abc123 def456 ghi789
 docker rm abc123 def456 ghi789
+docker run -d --name phpmyadmin-container --link mysql-container -p 8081:80 -e PMA_HOST=mysql-container phpmyadmin/phpmyadmin
+docker exec -it mysql-container mysql -u root -p
 
 ```
