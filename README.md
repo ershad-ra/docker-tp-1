@@ -134,7 +134,8 @@ docker run -d -p 8080:80 mon-nginx
 - Dockerfile permet de créer une image avec le fichier index.html dedans, on peut redéployer cette image, elle aura toujours le meme index.html
  ### Conclusion :
 
-### Développement → -v | Production → Dockerfile
+### Pour Développement → -v
+### Pour Production → Dockerfile
 
 
 ## Partie 2
