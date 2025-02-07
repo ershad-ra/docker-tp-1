@@ -267,7 +267,7 @@ docker rm my_volume
 
 ### Deux conteneurs sont attachés :
 
-# Détails des conteneurs
+### Détails des conteneurs
 
 | Conteneur       | Nom                   | Adresse IP    | MAC Address          |
 |----------------|----------------------|--------------|----------------------|
@@ -298,6 +298,15 @@ entrypoint: ["/bin/sh", "-c", "apt update && apt install -y iputils-ping && exec
 ```bash
 docker compose down -v
 ```
+## Résultat de la Partie 2
+
+- Pourquoi `docker-compose` est intéressant par rapport à `docker run` ?
+  - **Simplifie le déploiement** : Un seul fichier (`docker-compose.yml`) pour plusieurs conteneurs.
+  - **Automatise les dépendances** : `depends_on` assure l’ordre de démarrage.
+  - **Facilite la configuration** : Volumes, réseaux et variables d’environnement en un seul endroit.
+  - **Réutilisable** : Facile à partager et à versionner avec `Git`.
+- Comment configurer MySQL facilement au lancement ?
+  - Avec les variables d’environnement dans `docker-compose.yml` :
 
 ## les commandes utils:
 ```bash
@@ -316,9 +325,10 @@ docker network inspect my_network
 docker network rm my_network
 docker-compose up -d
 docker-compose down -v
-docker exec -it phpmyadmin-container bash  # Open a shell in the container
+docker exec -it phpmyadmin-container bash
 apt update && apt install -y iputils-ping
 docker exec -it phpmyadmin-container ping mysql-container
+entrypoint: ["/bin/sh", "-c", "apt update && apt install -y iputils-ping && exec docker-php-entrypoint apache2-foreground"]
 
 
 ```
