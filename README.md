@@ -421,12 +421,12 @@ docker network inspect backend_network
 ```
 ### Cas d’usage réel :
 - Cette configuration est utilisée pour sécuriser l’architecture réseau :
-  - Architecture microservices (avec frontend, backend, database).
-  - Séparer un serveur web et une base de données pour éviter des attaques directes sur db.
+  - Architecture microservices (avec `frontend`, `backend`, `database`).
+  - Séparer un serveur `web` et une base de données pour éviter des attaques directes sur `db`.
 - Exemples concrets :
-web = Nginx/Apache (accès utilisateur)  
-app = Node.js, Python Flask, PHP (logique métier)  
-db = PostgreSQL, MySQL, MongoDB (données sécurisées)
+`web` = `Nginx`/`Apache`
+`app` = `Node.js`, `Python Flask`, `PHP` 
+`db` = `PostgreSQL`, `MySQL`, `MongoDB`
 
 
 ## les commandes utils:
