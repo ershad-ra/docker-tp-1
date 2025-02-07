@@ -1,8 +1,7 @@
 
 # Docker - TP 1
 
-
-<span style="color:green">Partie 1
+## Partie 1
 Exécuter un serveur web (Nginx) dans un conteneur Docker et à y servir une page HTML statique.
 
 ### Récupération de l’image Nginx depuis Docker Hub
@@ -79,14 +78,6 @@ docker stop b685995a5f86
 docker rm b685995a5f86
 ```
 
-### 📌 Avantages :
-✅ Permet de modifier le fichier index.html sans redémarrer le conteneur  
-✅ Pas besoin de reconstruire une image  
-✅ Idéal pour le développement et les tests rapides
-
-### 📌 Inconvénients :
-❌ Pas portable (le fichier doit être sur la machine locale)  
-❌ Si le fichier est déplacé ou supprimé, le serveur Nginx ne pourra plus le lire
 
 ### 2️⃣ Méthode 2 : Copie du fichier avec docker cp
 
@@ -112,15 +103,6 @@ docker restart mon_nginx
 ```bash
 http://localhost:8080
 ```
-### 📌 Avantages :
-✅ Pas besoin de monter un volume  
-✅ Permet de modifier les fichiers sans reconstruire une image  
-✅ Fonctionne même sur des conteneurs existants
-
-### 📌 Inconvénients :
-❌ Les fichiers copiés sont dans le conteneur, donc si on supprime le conteneur, les fichiers sont perdus  
-❌ Moins pratique pour le développement en continu, car chaque changement nécessite un docker cp
-
 
 ### 3️⃣ Méthode 3 : Création d’une Image avec un Dockerfile
 
@@ -145,11 +127,6 @@ docker build -t mon-nginx .
 docker run -d -p 8080:80 mon-nginx
 ```
 
-### 📌 Avantages :
-✅ Très portable (on peut envoyer l’image sur Docker Hub)  
-✅ Facile à déployer en production (pas de dépendance avec un fichier local)  
-✅ Idéal pour l’intégration continue (CI/CD)
-
-### 📌 Inconvénients :
-❌ Chaque modification du fichier nécessite un rebuild (docker build)  
-❌ Plus long à mettre en place pour les tests rapides
+- Procédure 5 (-v et docker cp) : idéale pour le développement, rapide et modifiable sans reconstruire l’image, mais moins portable et non adapté à la production.  
+- Procédure 6 (Dockerfile) : plus portable et stable, parfaite pour la production et le déploiement automatisé, mais nécessite un rebuild à chaque modification.  
+✅ Développement → -v | ✅ Production → Dockerfile 🚀
