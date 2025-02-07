@@ -126,7 +126,7 @@ docker build -t mon-nginx .
 
 docker run -d -p 8080:80 mon-nginx
 ```
-
+## Résultat de la Partie 1
 - Procédure 5 (-v et docker cp) : idéale pour le développement, rapide et modifiable sans reconstruire l’image, mais moins portable et non adapté à la production.  
 - Procédure 6 (Dockerfile) : plus portable et stable, parfaite pour la production et le déploiement automatisé, mais nécessite un rebuild à chaque modification.  
 ✅ Développement → -v | ✅ Production → Dockerfile 🚀
