@@ -160,6 +160,9 @@ docker run -d --name mysql-container -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABA
  > `-e MYSQL_DATABASE=tp_db` → Crée une base de données tp_db.  
  > `-p 3306:3306` → Expose MySQL sur le port 3306.  
 
+![image](https://github.com/user-attachments/assets/1aec0412-20e8-418b-b838-4b3059139d03)
+
+
 ## les commandes utils:
 - Pour supprimer les contoneurs :
 ```bash
