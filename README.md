@@ -160,6 +160,7 @@ docker run -d --name mysql-container -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABA
  > `-e MYSQL_DATABASE=tp_db` → Crée une base de données tp_db.  
  > `-p 3306:3306` → Expose MySQL sur le port 3306.  
 
+<<<<<<< HEAD
 - Lancer un conteneur phpMyAdmin
 ```bash
 docker run -d --name phpmyadmin-container --link mysql-container -p 8081:80 -e PMA_HOST=mysql-container phpmyadmin/phpmyadmin
@@ -174,6 +175,9 @@ docker exec -it mysql-container mysql -u root -p
 ```
 
 > `docker exec -it mysql-container` → Ouvre un terminal interactif dans le conteneur MySQL.
+=======
+![image](https://github.com/user-attachments/assets/1aec0412-20e8-418b-b838-4b3059139d03)
+>>>>>>> bbd42581903ee3e65eb71f12cebef5d6f9abaae4
 
 
 ## les commandes utils:
