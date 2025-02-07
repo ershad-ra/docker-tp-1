@@ -45,7 +45,7 @@ nano index.html
 </html>
 
 ```
-### 1️⃣ Procédure 5 - Méthode 1 : Montage d’un Volume (-v)
+### 1️⃣ Méthode 1 : Montage d’un Volume (-v)
 
 On lance un conteneur Nginx en montant un fichier HTML local dans le conteneur à l’aide de l’option -v.
 
@@ -79,7 +79,7 @@ docker rm b685995a5f86
 ```
 
 
-### 2️⃣ Procédure 5 - Méthode 2 : Copie du fichier avec docker cp
+### 2️⃣ Méthode 2 : Copie du fichier avec docker cp
 
 On copie manuellement le fichier index.html dans un conteneur en cours d’exécution avec docker cp.
 
@@ -104,7 +104,7 @@ docker restart mon_nginx
 http://localhost:8080
 ```
 
-### 3️⃣ Procédure 6 - Méthode 3 : Création d’une Image avec un Dockerfile
+### 3️⃣ Méthode 3 : Création d’une Image avec un Dockerfile
 
 On crée une nouvelle image Docker qui contient directement le fichier index.html à l’aide d’un Dockerfile.
 
@@ -127,14 +127,14 @@ docker build -t mon-nginx .
 docker run -d -p 8080:80 mon-nginx
 ```
 ## Résultat de la Partie 1
-### Procédure 5 (-v et docker cp) :
+### Méthodes 1 et 2 (-v et docker cp) :
 - Idéale pour le développement, rapide et modifiable sans reconstruire l’image, mais moins portable et non adapté à la production.  
-### Procédure 6 (Dockerfile) :
+### Méthode 3 (Dockerfile) :
 - Plus portable et stable, parfaite pour la production et le déploiement automatisé, mais nécessite un rebuild à chaque modification.
 - Dockerfile permet de créer une image avec le fichier index.html dedans, on peut redéployer cette image, elle aura toujours le meme index.html
  ### Conclusion :
 
-### ✅ Développement → -v | ✅ Production → Dockerfile 🚀
+### ✅ Développement → -v | ✅ Production → Dockerfile
 
 
 ## Partie 2
@@ -182,7 +182,7 @@ docker exec -it mysql-container mysql -u root -p
 touch docker-compose.yml
 nano docker-compose.yml
 ```
-Ajouter le contenu suivant:
+Ajouter le contenu suivant :
 ```yaml
 services:  # Defines the services (containers) that will be created
 
@@ -311,7 +311,123 @@ docker compose down -v
   - **Facilite la configuration** : Volumes, réseaux et variables d’environnement en un seul endroit.
   - **Réutilisable** : Facile à partager et à versionner avec `Git`.
 - Comment configurer MySQL facilement au lancement ?
-  - Avec les variables d’environnement dans `docker-compose.yml` :
+  - Avec les variables d’environnement dans `docker-compose.yml`
+
+
+## Partie 3
+
+A l’aide de docker-compose et de l’image praqma/network-multitool disponible sur le Docker Hub créer 3 services (web, app et db) et 2 réseaux (frontend et backend).  
+Les services web et db ne devront pas pouvoir effectuer de ping de l’un vers l’autre.
+- Créer un fichier `docker-compose.yml` et ajouter ce contenu :
+```yaml
+services:
+  web:
+    image: praqma/network-multitool
+    container_name: web
+    networks:
+      - frontend
+
+  app:
+    image: praqma/network-multitool
+    container_name: app
+    networks:
+      - frontend
+      - backend
+
+  db:
+    image: praqma/network-multitool
+    container_name: db
+    networks:
+      - backend
+
+networks:
+  frontend:
+    name: frontend-network
+    driver: bridge
+
+  backend:
+    name: backend-network
+    driver: bridge
+```
+- effectuer les tests de Ping entre les conteneurs :
+```bash
+docker exec -it web ping app # OK
+docker exec -it web ping db # NOT OK
+
+docker exec -it app ping web # OK
+docker exec -it app ping db # OK
+
+docker exec -it db ping web # NOT OK
+docker exec -it db ping app # OK
+```
+- **Explication de la configuration**
+  - `web` et `db` sont isolés l’un de l’autre car ils sont sur des réseaux séparés (`frontend` et `backend`).
+  - `app` sert de passerelle car il appartient aux deux réseaux (`frontend` et `backend`).
+  - Le réseau `bridge` permet aux conteneurs d’un même réseau de se voir, mais empêche la communication entre `frontend` et `backend`.
+
+## Résultat de la Partie 3
+### Pour justifier cette isolation, exécuter ces commandes et vérifier la configuration de chaque réseau :
+```bash
+docker network inspect frontend_network
+# Quelques lignes supprimées
+            "Config": [
+                {
+                    "Subnet": "172.18.0.0/16",
+                    "Gateway": "172.18.0.1"
+                }
+# Quelques lignes supprimées
+        "Containers": {
+            "7d2b6cb94ca6cab340767f1dba8fc40bd9b4294f6dcf400652d7162c7256ad43": {
+                "Name": "web",
+                "EndpointID": "7ab157efe50388985652889b3ea1c811a008b69cbbecd6af8223d002c3db029f",
+                "MacAddress": "02:42:ac:12:00:02",
+                "IPv4Address": "172.18.0.2/16",
+                "IPv6Address": ""
+            },
+            "b92bd821d43effe37d6fa81fbea998a45192265e5c5a76dde1849f1e823c3016": {
+                "Name": "app",
+                "EndpointID": "6142d06e7715e1c1a70fc573a6f898c12402ab3b9b1c5d6b7417e447395b1e95",
+                "MacAddress": "02:42:ac:12:00:03",
+                "IPv4Address": "172.18.0.3/16",
+                "IPv6Address": ""
+            }
+# Quelques lignes supprimées
+docker network inspect backend_network
+# Quelques lignes supprimées
+            "Config": [
+                {
+                    "Subnet": "172.19.0.0/16",
+                    "Gateway": "172.19.0.1"
+                }
+            ]
+# Quelques lignes supprimées
+        "Containers": {
+            "b92bd821d43effe37d6fa81fbea998a45192265e5c5a76dde1849f1e823c3016": {
+                "Name": "app",
+                "EndpointID": "d41642504b18d5babb1ee71e7935c609b2eab56ab89fc943d565e945a17de2e0",
+                "MacAddress": "02:42:ac:13:00:02",
+                "IPv4Address": "172.19.0.2/16",
+                "IPv6Address": ""
+            },
+            "d876a080f174d997d5bcc30065e43709b09f7835a1abd088f8f2fc8801a8d9f5": {
+                "Name": "db",
+                "EndpointID": "57ff1a538fa315a70e5f363cc38b55e0db2904befd665e2294f280f9858ce214",
+                "MacAddress": "02:42:ac:13:00:03",
+                "IPv4Address": "172.19.0.3/16",
+                "IPv6Address": ""
+            }
+        },
+# Quelques lignes supprimées
+```
+### Cas d’usage réel :
+- Cette configuration est utilisée pour sécuriser l’architecture réseau :
+  - Architecture microservices (avec frontend, backend, database).
+  - Séparer un serveur web et une base de données pour éviter des attaques directes sur db.
+- Exemples concrets :
+web = Nginx/Apache (accès utilisateur)  
+app = Node.js, Python Flask, PHP (logique métier)  
+db = PostgreSQL, MySQL, MongoDB (données sécurisées)
+
 
 ## les commandes utils:
 ```bash

@@ -1,0 +1,44 @@
+services:  # Defines the services (containers) that will be created
+
+  mysql:  # Service name for MySQL
+    image: mysql:5.7  # Uses the official MySQL 5.7 image from Docker Hub
+    container_name: mysql-container  # Assigns a specific name to the container instead of a random one
+    restart: always  # Ensures the container restarts automatically if it stops
+    environment:  # Environment variables to configure MySQL
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: tp_db 
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:  # Maps ports between the container and the host
+      - "3306:3306"  # Exposes MySQL on port 3306 so it can be accessed from outside
+    volumes:  # Defines a volume for MySQL data persistence
+      - mysql_data:/var/lib/mysql  # Maps the named volume to MySQL's data directory
+    networks:  # Assigns MySQL to a specific network
+      - my_network  # Uses the custom network 'my_network' instead of the default
+
+  phpmyadmin:  # Service name for phpMyAdmin (GUI for MySQL)
+    image: phpmyadmin/phpmyadmin  # Uses the official phpMyAdmin image from Docker Hub
+    container_name: phpmyadmin-container  # Assigns a specific name to the phpMyAdmin container
+    restart: always  # Ensures the container restarts automatically if it stops
+    depends_on:  # Ensures MySQL starts before phpMyAdmin
+      - mysql  # phpMyAdmin will only start if MySQL is running
+    environment:  # Environment variables to configure phpMyAdmin
+      PMA_HOST: mysql  # Tells phpMyAdmin to connect to the MySQL service using its container name
+      MYSQL_ROOT_PASSWORD: root  # Provides the root password so phpMyAdmin can authenticate
+    ports:  # Maps ports between the container and the host
+      - "8081:80"  # Exposes phpMyAdmin on port 8081 (accessible via http://localhost:8081)
+    networks:  # Assigns phpMyAdmin to a specific network
+      - my_network  # Ensures phpMyAdmin can communicate with MySQL through this network
+    entrypoint: ["/bin/sh", "-c", 
+        "apt update && apt install -y iputils-ping && \
+        exec docker-php-entrypoint apache2-foreground"
+    ]  # Start a shell, update package list, install ping, then launch Apache properly
+    
+volumes:  # Defines persistent storage (keeps data even if containers are removed)
+  mysql_data:  # Named volume for MySQL data
+    name: my_volume  # Explicitly names the volume 'my_volume' instead of an auto-generated name
+
+networks:  # Defines the custom network to be used by services
+  my_network:  # Named network configuration
+    name: my_network  # Explicitly names the network 'my_network' instead of an auto-generated name
+    driver: bridge  # Uses the 'bridge' network driver for container communication
