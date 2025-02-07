@@ -45,7 +45,7 @@ nano index.html
 </html>
 
 ```
-### 1️⃣ Méthode 1 : Montage d’un Volume (-v)
+### 1️⃣ Procédure 5 - Méthode 1 : Montage d’un Volume (-v)
 
 On lance un conteneur Nginx en montant un fichier HTML local dans le conteneur à l’aide de l’option -v.
 
@@ -79,7 +79,7 @@ docker rm b685995a5f86
 ```
 
 
-### 2️⃣ Méthode 2 : Copie du fichier avec docker cp
+### 2️⃣ Procédure 5 - Méthode 2 : Copie du fichier avec docker cp
 
 On copie manuellement le fichier index.html dans un conteneur en cours d’exécution avec docker cp.
 
@@ -104,7 +104,7 @@ docker restart mon_nginx
 http://localhost:8080
 ```
 
-### 3️⃣ Méthode 3 : Création d’une Image avec un Dockerfile
+### 3️⃣ Procédure 6 - Méthode 3 : Création d’une Image avec un Dockerfile
 
 On crée une nouvelle image Docker qui contient directement le fichier index.html à l’aide d’un Dockerfile.
 
