@@ -155,10 +155,10 @@ docker pull phpmyadmin/phpmyadmin
 ```bash
 docker run -d --name mysql-container -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=tp_db -p 3306:3306 mysql:5.7
 ```
- - `--name mysql-container` → Nom du conteneur.
- - `-e MYSQL_ROOT_PASSWORD=root` → Définit le mot de passe root.
- - `-e MYSQL_DATABASE=tp_db` → Crée une base de données tp_db.
- - `-p 3306:3306` → Expose MySQL sur le port 3306.
+ > `--name mysql-container` → Nom du conteneur.
+ > `-e MYSQL_ROOT_PASSWORD=root` → Définit le mot de passe root.
+ > `-e MYSQL_DATABASE=tp_db` → Crée une base de données tp_db.
+ > `-p 3306:3306` → Expose MySQL sur le port 3306.
 
 ## les commandes utils:
 - Pour supprimer les contoneurs :
