@@ -130,7 +130,41 @@ docker run -d -p 8080:80 mon-nginx
 ### Procédure 5 (-v et docker cp) :
 - Idéale pour le développement, rapide et modifiable sans reconstruire l’image, mais moins portable et non adapté à la production.  
 ### Procédure 6 (Dockerfile) :
-- Plus portable et stable, parfaite pour la production et le déploiement automatisé, mais nécessite un rebuild à chaque modification. 
+- Plus portable et stable, parfaite pour la production et le déploiement automatisé, mais nécessite un rebuild à chaque modification.
+- Dockerfile permet de créer une image avec le fichier index.html dedans, on peut redéployer cette image, elle aura toujours le meme index.html
  ### Conclusion :
- 
+
 ### ✅ Développement → -v | ✅ Production → Dockerfile 🚀
+
+
+## Partie 2
+
+Utiliser une base de données dans un conteneur docker
+
+### Récupération des images mysql et phpmyadmin depuis Docker Hub
+
+
+- Télécharger les images depuis Docker Hub
+
+```bash
+docker pull mysql:5.7
+docker pull phpmyadmin/phpmyadmin
+
+```
+
+
+
+
+## les commandes utils:
+- Pour supprimer les contoneurs :
+```bash
+docker pull nginx:latest
+docker pull mysql:5.7
+docker pull phpmyadmin/phpmyadmin
+docker run -d -p 8080:80 --name mon_nginx nginx:latest
+docker ps
+docker ps -a
+docker stop abc123 def456 ghi789
+docker rm abc123 def456 ghi789
+
+```
